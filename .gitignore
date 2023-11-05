@@ -1,0 +1,8 @@
+# Archivos y directorios generados automáticamente
+__pycache__/
+*.pyc
+*.pyo
+*.db
+
+# Directorio virtualenv (si usas entornos virtuales)
+venv/
