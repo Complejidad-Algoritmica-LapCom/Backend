@@ -32,21 +32,33 @@ with open("Preprocesamiento-grafo/datos-laptos.json", "r") as archivo:
 
 # Calculamos la similitud entre cada par de laptops
 listAdj = {}
+listAdjNoPonderada = {}
 #n = len(nodeList)
-n = 20
+n = 200
 for i in range(n):
     adj = []
     for j in range(i + 1, n):
         similitud = similitud_global(nodeList[i], nodeList[j])
         node1 = {nodeList[j]['Laptop']: round(similitud,2)}
         node2 = {nodeList[i]['Laptop']: round(similitud,2)}
-        if similitud > 0.65:
+        
+        node1NoPonderado = nodeList[j]['Laptop']
+        node2NoPonderado = nodeList[i]['Laptop']
+        if similitud > 0.70:
             if nodeList[i]['Laptop'] not in listAdj:
                 listAdj[nodeList[i]['Laptop']] = []
+                listAdjNoPonderada[nodeList[i]['Laptop']] = []
             if nodeList[j]['Laptop'] not in listAdj:
                 listAdj[nodeList[j]['Laptop']] = []
+                listAdjNoPonderada[nodeList[j]['Laptop']] = []
             listAdj[nodeList[i]['Laptop']].append(node1)
             listAdj[nodeList[j]['Laptop']].append(node2)
+            listAdjNoPonderada[nodeList[i]['Laptop']].append(node1NoPonderado)
+            listAdjNoPonderada[nodeList[j]['Laptop']].append(node2NoPonderado)
             
 with open("lista-adyacencia.json", "w") as archivo:
     json.dump(listAdj, archivo)
+
+with open("lista-adyacencia-no-ponderada.json", "w") as archivo:
+    json.dump(listAdjNoPonderada, archivo)
+    
