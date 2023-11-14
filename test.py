@@ -18,7 +18,8 @@ def dijkstra(graph, start, end):
                 current_node = visited[current_node]
             path.insert(0, start)
             return path, distances[end]
-        
+    
+
         # Actualizar las distancias a los nodos vecinos
         for neighbor, weight in graph[current_node]:
             if neighbor in visited:

@@ -18,6 +18,7 @@ def similitud_global(laptop1, laptop2):
     caracteristicas_de_texto = ["Laptop", "Brand", "Model", "CPU", "Storage type", "GPU", "Touch"]
 
     similitud_numerica = sum(similitud_euclidiana(laptop1[car], laptop2[car]) for car in caracteristicas_numericas)/len(caracteristicas_numericas)
+    
     similitud_texto = sum(similitud_de_Levenshtein(laptop1[car], laptop2[car]) for car in caracteristicas_de_texto)/len(caracteristicas_de_texto)
 
     print("Similitud numerica: ", similitud_numerica)
@@ -33,28 +34,30 @@ with open("Preprocesamiento-grafo/datos-laptos.json", "r") as archivo:
 # Calculamos la similitud entre cada par de laptops
 listAdj = {}
 listAdjNoPonderada = {}
+
 #n = len(nodeList)
 n = 200
+identificador = "id"
 for i in range(n):
     adj = []
     for j in range(i + 1, n):
         similitud = similitud_global(nodeList[i], nodeList[j])
-        node1 = {nodeList[j]['Laptop']: round(similitud,2)}
-        node2 = {nodeList[i]['Laptop']: round(similitud,2)}
+        node1 = {nodeList[j][identificador]: round(similitud,2)}
+        node2 = {nodeList[i][identificador]: round(similitud,2)}
         
-        node1NoPonderado = nodeList[j]['Laptop']
-        node2NoPonderado = nodeList[i]['Laptop']
+        node1NoPonderado = nodeList[j][identificador]
+        node2NoPonderado = nodeList[i][identificador]
         if similitud > 0.70:
-            if nodeList[i]['Laptop'] not in listAdj:
-                listAdj[nodeList[i]['Laptop']] = []
-                listAdjNoPonderada[nodeList[i]['Laptop']] = []
-            if nodeList[j]['Laptop'] not in listAdj:
-                listAdj[nodeList[j]['Laptop']] = []
-                listAdjNoPonderada[nodeList[j]['Laptop']] = []
-            listAdj[nodeList[i]['Laptop']].append(node1)
-            listAdj[nodeList[j]['Laptop']].append(node2)
-            listAdjNoPonderada[nodeList[i]['Laptop']].append(node1NoPonderado)
-            listAdjNoPonderada[nodeList[j]['Laptop']].append(node2NoPonderado)
+            if nodeList[i][identificador] not in listAdj:
+                listAdj[nodeList[i][identificador]] = []
+                listAdjNoPonderada[nodeList[i][identificador]] = []
+            if nodeList[j][identificador] not in listAdj:
+                listAdj[nodeList[j][identificador]] = []
+                listAdjNoPonderada[nodeList[j][identificador]] = []
+            listAdj[nodeList[i][identificador]].append(node1)
+            listAdj[nodeList[j][identificador]].append(node2)
+            listAdjNoPonderada[nodeList[i][identificador]].append(node1NoPonderado)
+            listAdjNoPonderada[nodeList[j][identificador]].append(node2NoPonderado)
             
 with open("lista-adyacencia.json", "w") as archivo:
     json.dump(listAdj, archivo)

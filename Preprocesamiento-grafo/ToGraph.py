@@ -4,11 +4,13 @@ import json
 df = pd.read_csv("laptops.csv")
 df = df.fillna("")
 laptops = []
+id_laptop = 1
 for index, row in df.iterrows():
-    fila_diccionario = {}
+    fila_diccionario = {"id": id_laptop}
     for columna in df.columns:
-        fila_diccionario[columna] = row[columna]
-            
+        fila_diccionario[columna] = row[columna] 
     laptops.append(fila_diccionario)
+    id_laptop += 1
+    
 with open("datos-laptos.json", "w") as archivo:
     json.dump(laptops, archivo)
