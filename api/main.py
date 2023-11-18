@@ -67,10 +67,10 @@ def register():
         "professionalTitle": professionalTitle
     }
     return registerService(userRegister)
-@app.route('/api/user/login', methods=['POST'])
+@app.route('/api/user/login', methods=['GET'])
 def login():
-    email = request.json.get('email')
-    password = request.json.get('password')
+    email = request.args.get('email')
+    password = request.args.get('password')
     userLogin = {
         "email": email,
         "password": password,
