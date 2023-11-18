@@ -1,24 +1,20 @@
 import json
-def dfs(graph:dict, start:str, limit:int) -> list:
-    limite = limit
+def dfs(graph:dict, start:str) -> list:
     visited = []
     stack = [start]
-
+    limit = 15
     while stack:
         node = stack.pop()
-        if len(visited) == limite:
+        if len(visited) == limit:
             break
         if node not in visited:
             visited.append(node)
-            vecinos = list(map(str,graph[node]))
+            vecinos = []
+            if node in graph:
+                vecinos = list(map(str,graph[node]))
             stack.extend(vecinos)
-    return visited
+    response = visited[1:]
+    return response
 
-
-
-listAdj = {}
-with open("api\lista-adyacencia-no-ponderada.json", "r") as archivo:
-    listAdj = json.load(archivo)
-
-def ApplyDFS(nodoInicial:str, limite:int) -> list:
-    return dfs(listAdj, nodoInicial, limite)
+def ApplyDFS(nodoInicial:str, listAdj:{}) -> list:
+    return dfs(listAdj, nodoInicial)

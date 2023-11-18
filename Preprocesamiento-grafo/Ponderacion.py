@@ -36,7 +36,7 @@ listAdj = {}
 listAdjNoPonderada = {}
 
 #n = len(nodeList)
-n = 200
+n = 500
 identificador = "id"
 for i in range(n):
     adj = []
