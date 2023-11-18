@@ -1,7 +1,5 @@
 from flask import Flask, request
 from laptopsService import *
-from flask_swagger import swagger
-
 app = Flask(__name__)
 
 @app.route('/api/laptops', methods=['GET'])
@@ -55,6 +53,28 @@ def getFilterRecommendations(id:int):
 
     
     return filterRecommendations(id, brand, status, price, typeStorage, cpu, gpu, storage)
-    
+
+@app.route('/api/user/register', methods=['POST'])
+def register():
+    fullName = request.json.get('fullName')
+    email = request.json.get('email')
+    password = request.json.get('password')
+    professionalTitle = request.json.get('professionalTitle')
+    userRegister = {
+        "fullName": fullName,
+        "email": email,
+        "password": password,
+        "professionalTitle": professionalTitle
+    }
+    return registerService(userRegister)
+@app.route('/api/user/login', methods=['POST'])
+def login():
+    email = request.json.get('email')
+    password = request.json.get('password')
+    userLogin = {
+        "email": email,
+        "password": password,
+    }
+    return loginService(userLogin)
 if __name__ == '__main__':
     app.run(host='0.0.0.0',debug=True, port=5000)

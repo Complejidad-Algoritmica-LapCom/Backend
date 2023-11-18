@@ -5,8 +5,6 @@ from Ponderacion import *
 with open ('api\datos-laptos.json', 'r') as f:
         data = json.load(f)
         
-data = data[:500]
-
 with open ('api\list-ady-general.json', 'r') as f:
         ady = json.load(f)
 
@@ -101,4 +99,34 @@ def filterRecommendations(id:int,brand:bool = None, status:bool = None, price:bo
     response = []
     for recommendation in recommendations:
         response.append(data[int(recommendation)-1])
+    return response
+
+def registerService(userRegister:{}):
+    data = []
+    try:
+        with open("api/users.json", "r") as archivo:
+            data = json.load(archivo)
+    except:
+        with open("api/users.json", "w") as archivo:
+            json.dump(data, archivo)
+    userRegister['id'] = len(data) + 1
+    data.append(userRegister)
+    with open("api/users.json", "w") as archivo:
+        json.dump(data, archivo)
+    return {"register": "success"}
+        
+def loginService(userLogin:{}):
+    data = []
+    response = {}
+    try:
+        with open("api/users.json", "r") as archivo:
+            data = json.load(archivo)
+    except:
+        with open("api/users.json", "w") as archivo:
+            json.dump(data, archivo)
+    for user in data:
+        if(user['email'] == userLogin['email'] and user['password'] == userLogin['password']):
+            response["permission"] = True
+            return response
+    response["permission"] = False
     return response
